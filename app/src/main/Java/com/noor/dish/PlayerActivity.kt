@@ -1,4 +1,4 @@
-package com.noor.mytb
+package com.noor.mytvapp
 
 import android.app.PictureInPictureParams
 import android.content.Intent

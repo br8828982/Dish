@@ -1,4 +1,4 @@
-package com.noor.mytb
+package com.noor.mytvapp
 
 import android.content.Intent
 import android.os.Build
@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
-import com.noor.mytb.model.Channel
+import com.noor.mytvapp.model.Channel
 
 class MainActivity : AppCompatActivity() {
 

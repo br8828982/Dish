@@ -1,4 +1,4 @@
-package com.noor.dish
+package com.noor.mytb
 
 import android.app.PictureInPictureParams
 import android.content.pm.ActivityInfo
@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         "https://raw.githubusercontent.com/br8828982/M3U/refs/heads/main/channel.json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Edge-to-edge setup
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -81,14 +80,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         playerView = findViewById(R.id.player_view)
         videoTitle = playerView.findViewById(R.id.video_title)
-
-        // Set insets so lists/channels screen avoids the status bar
+		
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { view, insets ->
             val topInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
             view.updatePadding(top = topInset)
             insets
         }
-        // Inset for player top bar: so title is always below status bar (works in all modes)
+		
         val topBar: View = playerView.findViewById(R.id.top_bar)
         ViewCompat.setOnApplyWindowInsetsListener(topBar) { view, insets ->
             val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
@@ -153,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         playerView.visibility = View.VISIBLE
         videoTitle.text = channel.title
 
-        setImmersiveMode(true) // Hides bars whenever player is shown
+        setImmersiveMode(true)
 
         val mediaItemBuilder = MediaItem.Builder().setUri(channel.stream_url)
         if (!channel.license_url.isNullOrBlank()) {
@@ -182,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         player = null
         recyclerView.visibility = View.VISIBLE
         playerView.visibility = View.GONE
-        setImmersiveMode(false) // Restore bars when showing channel list
+        setImmersiveMode(false)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
@@ -217,7 +215,6 @@ class MainActivity : AppCompatActivity() {
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         else
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        // Remain in immersive as long as player is visible!
     }
 
     private fun setImmersiveMode(enabled: Boolean) {

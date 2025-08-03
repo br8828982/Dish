@@ -1,0 +1,72 @@
+[
+  {
+    "artifactId": "kotlin-stdlib",
+    "excludes": [],
+    "groupId": "org.jetbrains.kotlin",
+    "scope": "compile",
+    "versionName": "1.5.21"
+  },
+  {
+    "artifactId": "appcompat",
+    "excludes": [],
+    "groupId": "androidx.appcompat",
+    "scope": "compile",
+    "versionName": "1.6.1"
+  },
+  {
+    "artifactId": "recyclerview",
+    "excludes": [],
+    "groupId": "androidx.recyclerview",
+    "scope": "compile",
+    "versionName": "1.3.1"
+  },
+  {
+    "artifactId": "gson",
+    "excludes": [],
+    "groupId": "com.google.code.gson",
+    "scope": "compile",
+    "versionName": "2.8.9"
+  },
+  {
+    "artifactId": "exoplayer-core",
+    "excludes": [],
+    "groupId": "com.google.android.exoplayer",
+    "scope": "compile",
+    "versionName": "2.19.1"
+  },
+  {
+    "artifactId": "exoplayer-ui",
+    "excludes": [],
+    "groupId": "com.google.android.exoplayer",
+    "scope": "compile",
+    "versionName": "2.19.1"
+  },
+  {
+    "artifactId": "exoplayer-dash",
+    "excludes": [],
+    "groupId": "com.google.android.exoplayer",
+    "scope": "compile",
+    "versionName": "2.19.1"
+  },
+  {
+    "artifactId": "coil",
+    "excludes": [],
+    "groupId": "io.coil-kt",
+    "scope": "compile",
+    "versionName": "2.2.2"
+  },
+  {
+    "artifactId": "exoplayer-hls",
+    "excludes": [],
+    "groupId": "com.google.android.exoplayer",
+    "scope": "compile",
+    "versionName": "2.19.1"
+  },
+  {
+    "artifactId": "okhttp",
+    "excludes": [],
+    "groupId": "com.squareup.okhttp3",
+    "scope": "compile",
+    "versionName": "4.9.3"
+  }
+]

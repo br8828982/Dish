@@ -1,4 +1,4 @@
-package com.noor.dish
+package com.noor.mytvapp
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.noor.dish.model.Channel
+import com.noor.mytb.model.Channel
 
 class ChannelAdapter(
     private val channels: List<Channel>,
@@ -34,6 +34,9 @@ class ChannelAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(channels[position])
     }
+
+    override fun getItemCount(): Int = channels.size
+}
 
     override fun getItemCount(): Int = channels.size
 }

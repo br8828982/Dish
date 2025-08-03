@@ -28,3 +28,4 @@
         android:ellipsize="end"
         android:text="Channel Name" />
 </LinearLayout>
+        

@@ -1,4 +1,4 @@
-package com.noor.dish.model
+package com.noor.mytvapp.model
 
 data class Channel(
     val id: String,

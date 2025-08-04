@@ -42,7 +42,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private var playbackPosition = 0L
     private var currentWindow = 0
-	
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -101,9 +101,11 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        player?.playWhenReady = false
-        playbackPosition = player?.currentPosition ?: 0L
-        currentWindow = player?.currentMediaItemIndex ?: 0
+        if (!isInPictureInPictureMode) {
+            player?.playWhenReady = false
+            playbackPosition = player?.currentPosition ?: 0L
+            currentWindow = player?.currentMediaItemIndex ?: 0
+        }
     }
 
     override fun onStop() {
@@ -156,7 +158,7 @@ class PlayerActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun enterPIPMode() {
-        val pipAspectRatio = Rational(16, 9) // Standard video aspect for PiP
+        val pipAspectRatio = Rational(16, 9)
         val params = PictureInPictureParams.Builder()
             .setAspectRatio(pipAspectRatio)
             .build()

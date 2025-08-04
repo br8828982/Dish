@@ -1,4 +1,4 @@
-package com.noor.mytvapp
+package com.noor.mytb
 
 import android.app.PictureInPictureParams
 import android.content.Intent
@@ -40,6 +40,9 @@ class PlayerActivity : AppCompatActivity() {
 
     private var isInLandscape = false
 
+    private var playbackPosition = 0L
+    private var currentWindow = 0
+	
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -47,7 +50,6 @@ class PlayerActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_player)
 
-        // Get video info from intent
         streamUrl = intent.getStringExtra("CHANNEL_STREAM_URL") ?: ""
         licenseUrl = intent.getStringExtra("CHANNEL_LICENSE_URL")
         title = intent.getStringExtra("CHANNEL_TITLE") ?: "Untitled"
@@ -63,12 +65,10 @@ class PlayerActivity : AppCompatActivity() {
         resizeBtn.setOnClickListener { cycleResizeMode() }
 
         videoTitle.text = title
-        playVideo()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        // Called if new video is sent while this PlayerActivity is still alive (including PiP/background)
         intent?.let {
             val newStreamUrl = it.getStringExtra("CHANNEL_STREAM_URL") ?: ""
             val newLicenseUrl = it.getStringExtra("CHANNEL_LICENSE_URL")
@@ -80,10 +80,39 @@ class PlayerActivity : AppCompatActivity() {
                 licenseUrl = newLicenseUrl
                 title = newTitle
                 videoTitle.text = title
+                playbackPosition = 0L
+                currentWindow = 0
                 playVideo()
-                // If we are in PiP, exiting PiP and bringing to front happens automatically
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (player == null) {
+            playVideo()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        player?.playWhenReady = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        player?.playWhenReady = false
+        playbackPosition = player?.currentPosition ?: 0L
+        currentWindow = player?.currentMediaItemIndex ?: 0
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releasePlayer()
     }
 
     private fun playVideo() {
@@ -102,7 +131,7 @@ class PlayerActivity : AppCompatActivity() {
             .setMediaSourceFactory(DefaultMediaSourceFactory(this))
             .build().also {
                 playerView.player = it
-                it.setMediaItem(mediaItemBuilder.build())
+                it.setMediaItem(mediaItemBuilder.build(), playbackPosition)
                 it.prepare()
                 it.playWhenReady = true
             }
@@ -115,7 +144,6 @@ class PlayerActivity : AppCompatActivity() {
         playerView.resizeMode = resizeModes[resizeModeIndex]
     }
 
-    // UX: Portrait <-> Landscape (sensor, so user can freely rotate device in landscape, including upside down)
     private fun toggleOrientation() {
         if (isInLandscape) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -147,18 +175,9 @@ class PlayerActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    // * Most important: release the player in onStop so PiP close or swipe closes playback!
-    override fun onStop() {
-        super.onStop()
-        releasePlayer()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        releasePlayer()
-    }
-
     private fun releasePlayer() {
+        playbackPosition = player?.currentPosition ?: 0L
+        currentWindow = player?.currentMediaItemIndex ?: 0
         player?.release()
         player = null
         setImmersiveMode(false)
